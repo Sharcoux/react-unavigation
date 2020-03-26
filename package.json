@@ -4,7 +4,7 @@
   "description": "React Universal Navigation",
   "main": "index.js",
   "scripts": {
-    "prepare": "tsc && babel index.tsx > index.js"
+    "prepare": "tsc && babel index.tsx --extensions '.tsx' > index.js"
   },
   "repository": {
     "type": "git",
@@ -45,6 +45,7 @@
     "eslint-plugin-react": "^7.19.0",
     "eslint-plugin-react-native": "^3.8.1",
     "eslint-plugin-standard": "^4.0.1",
+    "metro-react-native-babel-preset": "^0.59.0",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-native": "^0.61.5",
