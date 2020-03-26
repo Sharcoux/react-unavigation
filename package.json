@@ -4,7 +4,7 @@
   "description": "React Universal Navigation",
   "main": "index.js",
   "scripts": {
-    "prepublish": "tsc"
+    "prepare": "tsc && babel index.tsx > index.js"
   },
   "repository": {
     "type": "git",
@@ -28,6 +28,10 @@
     "styled-components": "^5.0.1"
   },
   "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.0",
+    "@babel/preset-typescript": "^7.9.0",
     "@types/react": "^16.9.25",
     "@types/react-native": "^0.61.23",
     "@types/styled-components": "5.0.1",
