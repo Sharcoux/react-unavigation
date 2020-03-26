@@ -38,7 +38,7 @@ const Navigation = React.forwardRef<RN.View, Props>(({ active, children, duratio
   const activeChildIndex = childrenArray.findIndex(child => child.props.name === active) || 0
 
   const [activeIndex, setActive] = React.useState(activeChildIndex)
-  const [progress, setProgress] = React.useState('0%')
+  const [progress, setProgress] = React.useState(0)
   const [offset] = React.useState(new RN.Animated.Value(0))
 
   const target = React.useRef(activeChildIndex)
@@ -55,10 +55,10 @@ const Navigation = React.forwardRef<RN.View, Props>(({ active, children, duratio
     setProgress(offset.interpolate({
       inputRange: [0, 100],
       outputRange: (target.current > activeIndex) ? ['0%', '-100%'] : ['-100%', '0%']
-    }) as unknown as string)
+    }) as unknown as number)
     // Starts the animation
     RN.Animated.timing(offset, { toValue: 100, duration }).start(() => {
-      setProgress('0%')
+      setProgress(0)
       setActive(index) // Once the animation is over, we mark the new active child
       offset.setValue(0) // Reset the offset
       // If another animation occured since the last call we execute the animation to the next child
