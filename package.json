@@ -1,0 +1,51 @@
+{
+  "name": "react-unavigation",
+  "version": "0.0.1",
+  "description": "React Universal Navigation",
+  "main": "index.js",
+  "scripts": {
+    "prepublish": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Sharcoux/react-unavigation.git"
+  },
+  "keywords": [
+    "react",
+    "native",
+    "navigation",
+    "web"
+  ],
+  "author": "fbillioud",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Sharcoux/react-unavigation/issues"
+  },
+  "homepage": "https://github.com/Sharcoux/react-unavigation#readme",
+  "peerDependencies": {
+    "react-native": "^0.61.5",
+    "react": "^16.13.1",
+    "styled-components": "^5.0.1"
+  },
+  "devDependencies": {
+    "@types/react": "^16.9.25",
+    "@types/react-native": "^0.61.23",
+    "@types/styled-components": "5.0.1",
+    "@typescript-eslint/eslint-plugin": "^2.25.0",
+    "@typescript-eslint/parser": "^2.25.0",
+    "eslint": "^6.8.0",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-node": "^11.0.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-react": "^7.19.0",
+    "eslint-plugin-react-native": "^3.8.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "prop-types": "^15.7.2",
+    "react": "^16.13.1",
+    "react-native": "^0.61.5",
+    "styled-components": "^5.0.1",
+    "typescript": "^3.8.3"
+  },
+  "types": "index.d.ts"
+}
