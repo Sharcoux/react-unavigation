@@ -26,7 +26,7 @@ const Wrap = styled.View<WrapProps>`
 export type Props = {
   active: string;
   children: React.ReactElement[];
-  duration: number;
+  duration?: number;
 }
 
 const Navigation = React.forwardRef<RN.View, Props>(({ active, children, duration = 500 }: Props, ref = { current: null }) => {
@@ -97,7 +97,7 @@ const Navigation = React.forwardRef<RN.View, Props>(({ active, children, duratio
 Navigation.propTypes = {
   active: PropTypes.string.isRequired,
   children: PropTypes.arrayOf(PropTypes.element.isRequired).isRequired,
-  duration: PropTypes.number.isRequired
+  duration: PropTypes.number
 }
 
 Navigation.displayName = 'Navigation'
