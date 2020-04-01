@@ -1,6 +1,6 @@
 {
   "name": "react-unavigation",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "React Universal Navigation",
   "main": "index.js",
   "scripts": {
