@@ -2,7 +2,7 @@ import * as React from 'react'
 import * as RN from 'react-native'
 import styled from 'styled-components/native'
 
-import PropTypes from 'prop-types'
+import * as PropTypes from 'prop-types'
 
 const Slider = styled.View`
   width: 100%;
@@ -57,7 +57,7 @@ const Navigation = React.forwardRef<RN.View, Props>(({ active, children, duratio
       outputRange: (target.current > activeIndex) ? ['0%', '-100%'] : ['-100%', '0%']
     }) as unknown as number)
     // Starts the animation
-    RN.Animated.timing(offset, { toValue: 100, duration }).start(() => {
+    RN.Animated.timing(offset, { toValue: 100, duration, useNativeDriver: true }).start(() => {
       setProgress(0)
       setActive(index) // Once the animation is over, we mark the new active child
       offset.setValue(0) // Reset the offset
