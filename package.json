@@ -4,7 +4,8 @@
   "description": "React Universal Navigation",
   "main": "index.js",
   "scripts": {
-    "prepare": "tsc && babel index.tsx --extensions '.tsx' > index.js"
+    "prepare": "tsc && babel index.tsx --extensions '.tsx' > index.js",
+    "release": "release-it"
   },
   "repository": {
     "type": "git",
@@ -48,6 +49,7 @@
     "metro-react-native-babel-preset": "^0.59.0",
     "react": "^16.13.1",
     "react-native": "^0.61.5",
+    "release-it": "^13.5.8",
     "styled-components": "^5.0.1",
     "typescript": "^3.8.3"
   },
