@@ -2,8 +2,6 @@ import * as React from 'react'
 import * as RN from 'react-native'
 import styled from 'styled-components/native'
 
-import * as PropTypes from 'prop-types'
-
 const Slider = styled.View`
   width: 100%;
   height: 100%;
@@ -25,7 +23,7 @@ const Wrap = styled.View<WrapProps>`
 
 export type Props = {
   active: string;
-  children: React.ReactElement[];
+  children: React.ReactNodeArray;
   duration?: number;
 }
 
@@ -93,12 +91,6 @@ const Navigation = React.forwardRef<RN.View, Props>(({ active, children, duratio
     </Slider>
   )
 })
-
-Navigation.propTypes = {
-  active: PropTypes.string.isRequired,
-  children: PropTypes.arrayOf(PropTypes.element.isRequired).isRequired,
-  duration: PropTypes.number
-}
 
 Navigation.displayName = 'Navigation'
 
