@@ -1,25 +1,5 @@
 import * as React from 'react'
 import * as RN from 'react-native'
-import styled from 'styled-components/native'
-
-const Slider = styled.View`
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  position: relative;
-  flex-direction: row;
-`
-type WrapProps = {
-  active: boolean;
-  activating: boolean;
-  deactivating: boolean;
-}
-
-const Wrap = styled.View<WrapProps>`
-  display: ${props => (props.active || props.activating) ? 'flex' : 'none'};
-  width: 100%;
-  color: red;
-`
 
 export type Props = {
   active: string;
@@ -33,12 +13,15 @@ const Navigation = React.forwardRef<RN.View, Props>(({ active, children, duratio
   // We keep only the children of type ReactElement as other children will not be accessible anyway
   const childrenArray = (children as React.ReactNodeArray).filter(child => child && (child as React.ReactElement).props) as Array<React.ReactElement>
 
+  // activeIndex is the slide which is expected to be displayed
   const activeChildIndex = childrenArray.findIndex(child => child.props.name === active) || 0
 
+  // activeIndex is the current slide being displayed
   const [activeIndex, setActive] = React.useState(activeChildIndex)
   const [progress, setProgress] = React.useState(0)
   const [offset] = React.useState(new RN.Animated.Value(0))
 
+  // target is the slide to which any current animation is moving to
   const target = React.useRef(activeChildIndex)
 
   if (childrenArray.find(child => !child.props.name)) console.error('All children must have a name within the Navigation component')
@@ -68,27 +51,32 @@ const Navigation = React.forwardRef<RN.View, Props>(({ active, children, duratio
   React.useEffect(() => animateTo(activeChildIndex), [active])
   React.useEffect(() => () => offset.stopAnimation(), [])// Clean up
 
+  const childrenToDisplay = childrenArray
+    .filter((child, i) => activeIndex === i || target.current === i || activeChildIndex === i)
+    .map((child, i) => (<RN.View style={{ flex: 1 }} key={i}>{child}</RN.View>))
+
+  const sliderStyle: RN.ViewStyle = {
+    flex: 1,
+    alignSelf: 'stretch',
+    overflow: 'hidden',
+    position: 'relative',
+    flexDirection: 'row'
+  }
+
+  const slideStyle: RN.ViewStyle = {
+    position: 'relative',
+    flexDirection: 'row',
+    flexWrap: 'nowrap',
+    width: '100%',
+    left: progress
+  }
+
   return (
-    <Slider ref={ref}>
-      <RN.Animated.View style={{
-        position: 'relative',
-        flexDirection: 'row',
-        flexWrap: 'nowrap',
-        width: '100%',
-        left: progress
-      }}>
-        {childrenArray.map((child, i) => (
-          <Wrap
-            key={i}
-            active={activeIndex === i}
-            activating={target.current === i}
-            deactivating={activeIndex !== target.current}
-          >
-            {child}
-          </Wrap>
-        ))}
+    <RN.View style={sliderStyle} ref={ref}>
+      <RN.Animated.View style={slideStyle}>
+        {childrenToDisplay}
       </RN.Animated.View>
-    </Slider>
+    </RN.View>
   )
 })
 
