@@ -17,10 +17,7 @@ The lib expects you to have the following peer dependencies in your project:
 ```
     "react-native": "^0.61.5",
     "react": "^16.13.1",
-    "styled-components": "^5.0.1"
 ```
-
-I intend to remove the dependency to styled-component in the future. Feel free to propose a PR if you don't want styled-components in your project. That should be pretty easy theoretically.
 
 ## Usage
 
