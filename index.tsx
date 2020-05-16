@@ -52,7 +52,7 @@ const Navigation = React.forwardRef<RN.View, Props>(({ active, children, duratio
   React.useEffect(() => () => offset.stopAnimation(), [])// Clean up
 
   const childrenToDisplay = childrenArray
-    .filter((child, i) => activeIndex === i || target.current === i || activeChildIndex === i)
+    .filter((_child, i) => activeIndex === i || target.current === i || activeChildIndex === i)
     .map((child, i) => (<RN.View style={{ flex: 1 }} key={i}>{child}</RN.View>))
 
   const sliderStyle: RN.ViewStyle = {
