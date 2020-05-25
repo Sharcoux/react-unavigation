@@ -1,13 +1,13 @@
 import * as React from 'react'
 import * as RN from 'react-native'
 
-export type Props = {
+export type Props<T extends { name: string }> = {
   active: string;
-  children: React.ReactNodeArray;
+  children: (React.ComponentType<T> | undefined | null)[];
   duration?: number;
 }
 
-const Navigation = React.forwardRef<RN.View, Props>(({ active, children, duration = 500 }: Props, ref = { current: null }) => {
+const Navigation = React.forwardRef<RN.View, Props<any>>(({ active, children, duration = 500 }: Props<any>, ref) => {
   if (!children) return children
   if (!Array.isArray(children)) return children
   // We keep only the children of type ReactElement as other children will not be accessible anyway
