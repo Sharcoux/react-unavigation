@@ -3,7 +3,7 @@ import * as RN from 'react-native'
 
 export type Props<T extends { name: string }> = {
   active: string;
-  children: (React.ComponentType<T> | undefined | null)[];
+  children: (React.ComponentType<T> | JSX.Element | undefined | false | null)[];
   duration?: number;
 }
 
