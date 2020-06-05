@@ -4,7 +4,7 @@
   "description": "React Universal Navigation",
   "main": "index.js",
   "scripts": {
-    "prepare": "tsc",
+    "prepare": "tsc && babel index.tsx --extensions '.tsx' > index.js",
     "web": "babel app.web.tsx --extensions '.tsx' > app.web.js && parcel index.html",
     "open": "xdg-open http://localhost:1234",
     "release": "release-it"
