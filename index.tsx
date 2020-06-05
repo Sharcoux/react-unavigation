@@ -1,14 +1,16 @@
 import * as React from 'react'
 import * as RN from 'react-native'
 
-export type Props<T extends { name: string }> = {
+type Children<T> = React.ReactElement<T> | null | false | undefined
+
+export type Props<T> = {
   active: string;
-  children: (React.ComponentType<T> | JSX.Element | undefined | false | null)[];
+  children: Children<T> | Children<T>[];
   duration?: number;
 }
 
-const Navigation = React.forwardRef<RN.View, Props<any>>(({ active, children, duration = 500 }: Props<any>, ref) => {
-  if (!children) return children
+const Navigation = React.forwardRef(<T, >({ active, children, duration = 500 }: Props<T>, ref: React.Ref<RN.View>) => {
+  if (!children) return null
   if (!Array.isArray(children)) return children
   // We keep only the children of type ReactElement as other children will not be accessible anyway
   const childrenArray = (children as React.ReactNodeArray).filter(child => child && (child as React.ReactElement).props) as Array<React.ReactElement>
@@ -86,4 +88,4 @@ Navigation.displayName = 'Navigation'
 
 export default Navigation
 
-export const Slide = RN.View as React.ComponentType<RN.ViewProps & { name?: string }>
+export const Slide = RN.View as unknown as React.ComponentType<RN.ViewProps & { name: string }>

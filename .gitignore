@@ -12,5 +12,5 @@ yarn-error.log
 index.d.ts
 index.js
 app.web.js
-cache
+.cache
 dist
