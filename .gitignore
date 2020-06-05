@@ -11,3 +11,6 @@ yarn-error.log
 # react-native-web
 index.d.ts
 index.js
+app.web.js
+cache
+dist

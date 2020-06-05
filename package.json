@@ -4,7 +4,9 @@
   "description": "React Universal Navigation",
   "main": "index.js",
   "scripts": {
-    "prepare": "tsc && babel index.tsx --extensions '.tsx' > index.js",
+    "prepare": "tsc",
+    "web": "babel app.web.tsx --extensions '.tsx' > app.web.js && parcel index.html",
+    "open": "xdg-open http://localhost:1234",
     "release": "release-it"
   },
   "repository": {
@@ -24,9 +26,9 @@
   },
   "homepage": "https://github.com/Sharcoux/react-unavigation#readme",
   "peerDependencies": {
-    "react-native": "^0.61.5",
-    "react": "^16.13.1",
-    "styled-components": "^5.0.1"
+    "react-native": ">=0.61.5",
+    "react": ">=16.13.1",
+    "styled-components": ">=5.0.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.8.4",
@@ -46,10 +48,24 @@
     "eslint-plugin-react-native": "^3.8.1",
     "eslint-plugin-standard": "^4.0.1",
     "metro-react-native-babel-preset": "^0.59.0",
+    "parcel": "^1.12.4",
+    "parcel-bundler": "^1.12.4",
     "react": "^16.13.1",
     "react-native": "^0.61.5",
     "release-it": "^13.5.8",
     "typescript": "^3.8.3"
   },
-  "types": "index.d.ts"
+  "files": [
+    "index.js",
+    "index.tsx",
+    "index.d.ts"
+  ],
+  "alias": {
+    "react-native": "react-native-web"
+  },
+  "types": "index.d.ts",
+  "dependencies": {
+    "react-dom": "^16.13.1",
+    "react-native-web": "^0.12.3"
+  }
 }

@@ -53,7 +53,7 @@ const Navigation = React.forwardRef<RN.View, Props<any>>(({ active, children, du
 
   const childrenToDisplay = childrenArray
     .filter((_child, i) => activeIndex === i || target.current === i || activeChildIndex === i)
-    .map((child, i) => (<RN.View style={{ flex: 1 }} key={i}>{child}</RN.View>))
+    .map((child, i) => (<RN.View style={{ flex: 1, flexBasis: 0 }} key={i}>{child}</RN.View>))
 
   const sliderStyle: RN.ViewStyle = {
     flex: 1,
@@ -67,7 +67,9 @@ const Navigation = React.forwardRef<RN.View, Props<any>>(({ active, children, du
     position: 'relative',
     flexDirection: 'row',
     flexWrap: 'nowrap',
-    width: '100%',
+    flexGrow: 0,
+    flexShrink: 0,
+    flexBasis: `${childrenToDisplay.length * 100}%`,
     left: progress
   }
 
