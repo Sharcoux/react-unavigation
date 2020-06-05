@@ -85,3 +85,5 @@ const Navigation = React.forwardRef<RN.View, Props<any>>(({ active, children, du
 Navigation.displayName = 'Navigation'
 
 export default Navigation
+
+export const Slide = RN.View as React.ComponentType<RN.ViewProps & { name?: string }>
