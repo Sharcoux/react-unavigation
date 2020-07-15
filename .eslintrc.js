@@ -7,7 +7,7 @@ module.exports = {
     'plugin:react/recommended',
     'standard',
     'plugin:@typescript-eslint/eslint-recommended',
-    'plugin:@typescript-eslint/recommended',
+    'plugin:@typescript-eslint/recommended'
   ],
   globals: {
     Atomics: 'readonly',
@@ -26,7 +26,8 @@ module.exports = {
     '@typescript-eslint'
   ],
   rules: {
-    '@typescript-eslint/explicit-function-return-type': 'off' 
+    '@typescript-eslint/explicit-function-return-type': 'off',
+    '@typescript-eslint/explicit-module-boundary-types': 'off'
   },
-  ignorePatterns: ["index.js", "index.d.ts"],
+  ignorePatterns: ['index.js', 'index.d.ts']
 }

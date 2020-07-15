@@ -58,7 +58,68 @@ The steps are simple:
 
 You can provide an optional `duration` property in *ms* to the `Navigation` component. This will change the duration of the transition between the screens.
 
-## miscellaneous
+## Typescript
+
+To use this lib with typescript, you need the children to accept the name prop. If your component doesn't, `react-unavigation` provides 2 solutions:
+
+### Slide component
+
+You can import the `Slide` component which is actually a Wrapper that accepts `name` as prop:
+
+```javascript
+import Navigation, { Slide } from 'react-unavigation'
+
+const App = () => {
+  const [active, setActive] = useState('home')
+  const toHome = () => setActive('home')
+  const toPage1 = () => setActive('page1')
+
+  return (<Navigation active={active}>
+    <Slide name='home' Component={View}>
+      <Text>This is the Home page</Text>
+      <Button title='first page' onPress={toPage1}>
+    </View>
+    <Slide name='page1' Component={View}>
+      <Text>This is the first page</Text>
+      <Button title='first page' onPress={toHome}>
+    </View>
+  </Navigation>)
+}
+```
+
+The Slide component expects a name, and a Component to be displayed. It will transfer all of its other props to the Component provided.
+
+### asSlide High Order Component
+
+For usage with more generic components, you can use the `asSlide` HOC.
+
+```javascript
+import Navigation, { asSlide } from 'react-unavigation'
+
+const Home = asSlide(View, 'home')
+const Page1 = asSlide(View, 'page1')
+
+const App = () => {
+
+  const [active, setActive] = useState('home')
+  const toHome = () => setActive('home')
+  const toPage1 = () => setActive('page1')
+
+  return (<Navigation active={active}>
+    <Home>
+      <Text>This is the Home page</Text>
+      <Button title='first page' onPress={toPage1}>
+    </Home>
+    <Page1>
+      <Text>This is the first page</Text>
+      <Button title='first page' onPress={toHome}>
+    </Page1>
+  </Navigation>)
+}
+`̀``
+
+
+## Miscellaneous
 
 ### __Forwarding actions to children__
 
@@ -72,7 +133,7 @@ Of course, if you forget to add a name to your component or if you call `setActi
 
 You can use nested Navigation components to match the logic of your application. By the way, Navigation component can be used to navigate within a portion of a view. You don't need to use it only to control the whole application screen. Look at this:
 
-```
+```javascript
   <Navbar>
     <Button onPress={() => setActive("tab1")} title={"To tab 1"}>
     <Button onPress={() => setActive("tab2")} title={"To tab 2"}>

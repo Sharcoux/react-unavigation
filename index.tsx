@@ -86,4 +86,14 @@ Navigation.displayName = 'Navigation'
 
 export default Navigation
 
-export const Slide = RN.View as unknown as React.ComponentType<RN.ViewProps & { name: string }>
+type SlideProps<T> = T & {
+  Component: React.ComponentType<T>;
+  name: string;
+  children?: React.ReactNode;
+}
+
+export const Slide = <T, >(props: SlideProps<T>) => (<props.Component {...props} Component={undefined} />)
+
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+export const asSlide = <T, >(Component: React.ComponentType<T>, defaultName: string) => ({ name = defaultName, ...props }: T & {name: string; children?: React.ReactNode }) => (<Component name={name} {...props}/>)
