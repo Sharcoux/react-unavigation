@@ -23,7 +23,7 @@ The lib expects you to have the following peer dependencies in your project:
 
 This is how you can use the navigation component:
 
-```javascript
+```JSX
 import Navigation from 'react-unavigation'
 
 const App = () => {
@@ -93,7 +93,7 @@ The Slide component expects a name, and a Component to be displayed. It will tra
 
 For usage with more generic components, you can use the `asSlide` HOC.
 
-```javascript
+```JSX
 import Navigation, { asSlide } from 'react-unavigation'
 
 const Home = asSlide(View, 'home')
@@ -116,7 +116,7 @@ const App = () => {
     </Page1>
   </Navigation>)
 }
-`̀``
+```
 
 
 ## Miscellaneous
@@ -133,15 +133,15 @@ Of course, if you forget to add a name to your component or if you call `setActi
 
 You can use nested Navigation components to match the logic of your application. By the way, Navigation component can be used to navigate within a portion of a view. You don't need to use it only to control the whole application screen. Look at this:
 
-```javascript
-  <Navbar>
-    <Button onPress={() => setActive("tab1")} title={"To tab 1"}>
-    <Button onPress={() => setActive("tab2")} title={"To tab 2"}>
-    <Button onPress={() => setActive("tab3")} title={"To tab 3"}>
-  </Navbar>
-  <Navigation active={active}>
-    <Tab1 name={"tab1"} />
-    <Tab2 name={"tab2"} />
-    <Tab3 name={"tab3"} />
-  </Navigation>
+```JSX
+<Navbar>
+  <Button onPress={() => setActive("tab1")} title={"To tab 1"}>
+  <Button onPress={() => setActive("tab2")} title={"To tab 2"}>
+  <Button onPress={() => setActive("tab3")} title={"To tab 3"}>
+</Navbar>
+<Navigation active={active}>
+  <Tab1 name={"tab1"} />
+  <Tab2 name={"tab2"} />
+  <Tab3 name={"tab3"} />
+</Navigation>
 ```
