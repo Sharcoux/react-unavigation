@@ -34,11 +34,11 @@ const App = () => {
   return (<Navigation active={active}>
     <View name='home'>
       <Text>This is the Home page</Text>
-      <Button title='first page' onPress={toPage1}>
+      <Button title='first page' onPress={toPage1} />
     </View>
     <View name='page1'>
       <Text>This is the first page</Text>
-      <Button title='first page' onPress={toHome}>
+      <Button title='first page' onPress={toHome} />
     </View>
     <AnotherComponent name='page2' toHome={toHome} />
   </Navigation>)
@@ -77,11 +77,11 @@ const App = () => {
   return (<Navigation active={active}>
     <Slide name='home' Component={View}>
       <Text>This is the Home page</Text>
-      <Button title='first page' onPress={toPage1}>
+      <Button title='first page' onPress={toPage1} />
     </View>
     <Slide name='page1' Component={View}>
       <Text>This is the first page</Text>
-      <Button title='first page' onPress={toHome}>
+      <Button title='first page' onPress={toHome} />
     </View>
   </Navigation>)
 }
@@ -108,11 +108,11 @@ const App = () => {
   return (<Navigation active={active}>
     <Home>
       <Text>This is the Home page</Text>
-      <Button title='first page' onPress={toPage1}>
+      <Button title='first page' onPress={toPage1} />
     </Home>
     <Page1>
       <Text>This is the first page</Text>
-      <Button title='first page' onPress={toHome}>
+      <Button title='first page' onPress={toHome} />
     </Page1>
   </Navigation>)
 }
@@ -135,9 +135,9 @@ You can use nested Navigation components to match the logic of your application.
 
 ```JSX
 <Navbar>
-  <Button onPress={() => setActive("tab1")} title={"To tab 1"}>
-  <Button onPress={() => setActive("tab2")} title={"To tab 2"}>
-  <Button onPress={() => setActive("tab3")} title={"To tab 3"}>
+  <Button onPress={() => setActive("tab1")} title={"To tab 1"} />
+  <Button onPress={() => setActive("tab2")} title={"To tab 2"} />
+  <Button onPress={() => setActive("tab3")} title={"To tab 3"} />
 </Navbar>
 <Navigation active={active}>
   <Tab1 name={"tab1"} />
