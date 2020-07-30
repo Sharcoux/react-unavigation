@@ -34,28 +34,30 @@ const Navigation = React.forwardRef<RN.View, Props>(({ active, children, duratio
 
   if (!childrenElementsArray.find(child => child.props.name === active)) console.error(`The Navigation component could not match any child with the name ${active}`)
 
-  /** Show a transition from the activeIndex to the active child. **/
-  function animateTo (index: number) {
-    if (progress || index === target.current) return // If an animation is already in progress, we wait until it is over
-    target.current = index // Register the target
-    // Decide to which direction interpolate to
-    setProgress(offset.interpolate({
-      inputRange: [0, 100],
-      outputRange: (target.current > activeIndex) ? ['0%', '-100%'] : ['-100%', '0%']
-    }) as unknown as number)
-    // Starts the animation
-    RN.Animated.timing(offset, { toValue: 100, duration, useNativeDriver: true }).start(() => {
-      setProgress(0)
-      setActive(index) // Once the animation is over, we mark the new active child
-      offset.setValue(0) // Reset the offset
-      // If another animation occured since the last call we execute the animation to the next child
-      if (activeChildIndex !== index) animateTo(activeChildIndex)
-    })
-  }
-
   // Run the transition each time the active child changes
-  React.useEffect(() => animateTo(activeChildIndex), [active])
-  React.useEffect(() => () => offset.stopAnimation(), [])// Clean up
+  React.useEffect(() => {
+    /** Show a transition from the activeIndex to the active child. **/
+    function animateTo (index: number) {
+      if (progress || index === target.current) return // If an animation is already in progress, we wait until it is over
+      target.current = index // Register the target
+      // Decide to which direction interpolate to
+      setProgress(offset.interpolate({
+        inputRange: [0, 100],
+        outputRange: (target.current > activeIndex) ? ['0%', '-100%'] : ['-100%', '0%']
+      }) as unknown as number)
+      // Starts the animation
+      RN.Animated.timing(offset, { toValue: 100, duration, useNativeDriver: true }).start(() => {
+        setProgress(0)
+        setActive(index) // Once the animation is over, we mark the new active child
+        offset.setValue(0) // Reset the offset
+        // If another animation occured since the last call we execute the animation to the next child
+        if (activeChildIndex !== index) animateTo(activeChildIndex)
+      })
+    }
+
+    animateTo(activeChildIndex)
+  }, [active])
+  React.useEffect(() => () => offset.stopAnimation(), [offset])// Clean up
 
   const childrenToDisplay = childrenElementsArray
     .filter((_child, i) => activeIndex === i || target.current === i || activeChildIndex === i)
