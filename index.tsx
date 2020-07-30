@@ -14,13 +14,13 @@ function flat<T, > (arr: T[]): T[] {
 }
 
 const Navigation = React.forwardRef<RN.View, Props>(({ active, children, duration = 500 }: Props, ref) => {
-  if (!children) return null
-  if (!Array.isArray(children)) return children as React.ReactElement
+  const childrenArray = children && Array.isArray(children) ? children : []
+
   // We keep only the children of type ReactElement as other children will not be accessible anyway
-  const childrenArray = flat(children as React.ReactNodeArray).filter(child => child && (child as React.ReactElement).props) as Array<React.ReactElement>
+  const childrenElementsArray = flat(childrenArray as React.ReactNodeArray).filter(child => child && (child as React.ReactElement).props) as Array<React.ReactElement>
 
   // activeIndex is the slide which is expected to be displayed
-  const activeChildIndex = childrenArray.findIndex(child => child.props.name === active) || 0
+  const activeChildIndex = childrenElementsArray.findIndex(child => child.props.name === active) || 0
 
   // activeIndex is the current slide being displayed
   const [activeIndex, setActive] = React.useState(activeChildIndex)
@@ -30,9 +30,9 @@ const Navigation = React.forwardRef<RN.View, Props>(({ active, children, duratio
   // target is the slide to which any current animation is moving to
   const target = React.useRef(activeChildIndex)
 
-  if (childrenArray.find(child => !child.props.name)) console.error('All children must have a name within the Navigation component')
+  if (childrenElementsArray.find(child => !child.props.name)) console.error('All children must have a name within the Navigation component')
 
-  if (!childrenArray.find(child => child.props.name === active)) console.error(`The Navigation component could not match any child with the name ${active}`)
+  if (!childrenElementsArray.find(child => child.props.name === active)) console.error(`The Navigation component could not match any child with the name ${active}`)
 
   /** Show a transition from the activeIndex to the active child. **/
   function animateTo (index: number) {
@@ -57,7 +57,7 @@ const Navigation = React.forwardRef<RN.View, Props>(({ active, children, duratio
   React.useEffect(() => animateTo(activeChildIndex), [active])
   React.useEffect(() => () => offset.stopAnimation(), [])// Clean up
 
-  const childrenToDisplay = childrenArray
+  const childrenToDisplay = childrenElementsArray
     .filter((_child, i) => activeIndex === i || target.current === i || activeChildIndex === i)
     .map((child, i) => (<RN.View style={{ flex: 1, flexBasis: 0 }} key={i}>{child}</RN.View>))
 
@@ -79,6 +79,8 @@ const Navigation = React.forwardRef<RN.View, Props>(({ active, children, duratio
     left: progress
   }
 
+  if (!children) return null
+  if (!Array.isArray(children)) return children as React.ReactElement
   return (
     <RN.View style={sliderStyle} ref={ref}>
       <RN.Animated.View style={slideStyle}>
