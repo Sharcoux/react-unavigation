@@ -62,8 +62,6 @@ const Navigation = React.forwardRef<RN.View, Props>(({ active, children, duratio
     .filter((_child, i) => activeIndex === i || target === i)
     .map((child, i) => (<RN.View style={{ flex: 1, flexBasis: 0 }} key={i}>{child}</RN.View>))
 
-  console.log(activeIndex, target, offset)
-
   const sliderStyle: RN.ViewStyle = {
     flex: 1,
     alignSelf: 'stretch',
