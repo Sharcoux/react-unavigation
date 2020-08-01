@@ -23,13 +23,12 @@ const Navigation = React.forwardRef<RN.View, Props>(({ active, children, duratio
   const activeChildIndex = childrenElementsArray.findIndex(child => child.props.name === active) || 0
 
   // The animated value and it's interpolated equivalence.
-  const [progress, setProgress] = React.useState('0%')
-  const [offset] = React.useState(new RN.Animated.Value(0))
+  const offset = React.useRef(new RN.Animated.Value(0))
 
   // activeIndex is the current slide being displayed
-  const activeIndex = React.useRef(activeChildIndex)
+  const [activeIndex, setActiveIndex] = React.useState(activeChildIndex)
   // target is the slide to which any current animation is moving to
-  const target = React.useRef(activeChildIndex)
+  const [target, setTarget] = React.useState(activeChildIndex)
   // newTarget holds the slide to which the user lastely asked to be sent to
   const newTarget = React.useRef(activeChildIndex)
 
@@ -42,32 +41,28 @@ const Navigation = React.forwardRef<RN.View, Props>(({ active, children, duratio
     newTarget.current = activeChildIndex// We record the new target being requested
     /** Show a transition from the activeIndex to the active child. **/
     function animateTo (index: number) {
-      if (activeIndex.current !== target.current) return // If an animation is already in progress, we wait until it is over
-      if (activeIndex.current === index) return // If the target is the current slide, we do nothing
-      target.current = index // Register the target
-      // Decide to which direction interpolate to
-      setProgress(offset.interpolate({
-        inputRange: [0, 100],
-        outputRange: (target.current > activeIndex.current) ? ['0%', '-100%'] : ['-100%', '0%']
-      }) as unknown as string)
+      if (activeIndex !== target) return // If an animation is already in progress, we wait until it is over
+      if (activeIndex === index) return // If the target is the current slide, we do nothing
+      setTarget(index) // Register the target
       // Starts the animation
-      RN.Animated.timing(offset, { toValue: 100, duration, useNativeDriver: true }).start(() => {
-        setProgress('0%')
-        activeIndex.current = index // Once the animation is over, we mark the new active child
-        offset.setValue(0) // Reset the offset
+      RN.Animated.timing(offset.current, { toValue: 100, duration, useNativeDriver: true }).start(() => {
+        offset.current.setValue(0) // Reset the offset
+        setActiveIndex(index) // Once the animation is over, we mark the new active child
         // If another animation occured since the last call we execute the animation to the next child
-        animateTo(newTarget.current)
+        if (newTarget.current !== index) animateTo(newTarget.current)
       })
     }
 
     animateTo(activeChildIndex)
   }, [activeChildIndex])
-  React.useEffect(() => () => offset.stopAnimation(), [offset])// Clean up
+  React.useEffect(() => () => offset.current.stopAnimation(), [offset])// Clean up
 
   // We display only the current active slide and eventually the target of the current animation.
   const childrenToDisplay = childrenElementsArray
-    .filter((_child, i) => activeIndex.current === i || target.current === i)
+    .filter((_child, i) => activeIndex === i || target === i)
     .map((child, i) => (<RN.View style={{ flex: 1, flexBasis: 0 }} key={i}>{child}</RN.View>))
+
+  console.log(activeIndex, target, offset)
 
   const sliderStyle: RN.ViewStyle = {
     flex: 1,
@@ -84,7 +79,10 @@ const Navigation = React.forwardRef<RN.View, Props>(({ active, children, duratio
     flexGrow: 0,
     flexShrink: 0,
     flexBasis: `${childrenToDisplay.length * 100}%`,
-    left: progress
+    left: offset.current.interpolate({
+      inputRange: [0, 100],
+      outputRange: (target >= activeIndex) ? ['0%', '-100%'] : ['-100%', '0%']
+    }) as unknown as string
   }
 
   if (!children) return null
