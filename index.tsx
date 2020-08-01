@@ -67,7 +67,7 @@ const Navigation = React.forwardRef<RN.View, Props>(({ active, children, duratio
   const sliderStyle: RN.ViewStyle = {
     flex: 1,
     alignSelf: 'stretch',
-    overflow: 'hidden',
+    overflow: target === activeIndex ? undefined : 'hidden',
     position: 'relative',
     flexDirection: 'row'
   }
