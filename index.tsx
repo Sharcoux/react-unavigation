@@ -60,7 +60,7 @@ const Navigation = React.forwardRef<RN.View, Props>(({ active, children, duratio
       if (activeIndex.current !== target.current) return // If an animation is already in progress, we wait until it is over
       if (activeIndex.current === index) return // If the target is the current slide, we do nothing
       target.current = index // Register the target
-      setUpdateNeeded(true)
+      revalidate()
       // Starts the animation
       RN.Animated.timing(offset.current, { toValue: 100, duration, useNativeDriver: true }).start(() => {
         offset.current.setValue(0) // Reset the offset
