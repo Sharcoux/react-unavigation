@@ -78,7 +78,7 @@ const Navigation = React.forwardRef<RN.View, Props>(({ active, children, duratio
   // We display only the current active slide and eventually the target of the current animation.
   const childrenToDisplay = childrenElementsArray
     .filter((_child, i) => activeIndex.current === i || target.current === i)
-    .map((child, i) => (<RN.View style={{ flex: 1, flexBasis: 0 }} key={i}>{child}</RN.View>))
+    .map(child => (<RN.View style={{ flex: 1, flexBasis: 0 }} key={child.props.name}>{child}</RN.View>))
 
   const sliderStyle: RN.ViewStyle = {
     flex: 1,
