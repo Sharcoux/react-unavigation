@@ -95,10 +95,13 @@ const Navigation = React.forwardRef<RN.View, Props>(({ active, children, duratio
     flexGrow: 0,
     flexShrink: 0,
     flexBasis: `${childrenToDisplay.length * 100}%`,
-    left: offset.current.interpolate({
-      inputRange: [0, 100],
-      outputRange: (target.current >= activeIndex.current) ? ['0%', '-100%'] : ['-100%', '0%']
-    }) as unknown as string
+    left: 0,
+    transform: [{
+      translateX: offset.current.interpolate({
+        inputRange: [0, 100],
+        outputRange: (target.current >= activeIndex.current) ? ['0%', `-${100 / childrenToDisplay.length}%`] : [`-${100 / childrenToDisplay.length}%`, '0%']
+      }) as unknown as number
+    }]
   }
 
   if (!children) return null
