@@ -14,6 +14,7 @@ function flat<T, > (arr: T[]): T[] {
 }
 
 const Navigation = React.forwardRef<RN.View, Props>(({ active, children, duration = 500 }: Props, ref) => {
+  const width = React.useRef(1)
   const childrenArray = children && Array.isArray(children) ? children : []
 
   // We keep only the children of type ReactElement as other children will not be accessible anyway
@@ -99,7 +100,7 @@ const Navigation = React.forwardRef<RN.View, Props>(({ active, children, duratio
     transform: [{
       translateX: offset.current.interpolate({
         inputRange: [0, 100],
-        outputRange: (target.current >= activeIndex.current) ? ['0%', `-${100 / childrenToDisplay.length}%`] : [`-${100 / childrenToDisplay.length}%`, '0%']
+        outputRange: (target.current >= activeIndex.current) ? [0, -width.current] : [-width.current, 0]
       }) as unknown as number
     }]
   }
@@ -107,7 +108,7 @@ const Navigation = React.forwardRef<RN.View, Props>(({ active, children, duratio
   if (!children) return null
   if (!Array.isArray(children)) return children as React.ReactElement
   return (
-    <RN.View style={sliderStyle} ref={ref}>
+    <RN.View onLayout={event => (width.current = event.nativeEvent.layout.width)} style={sliderStyle} ref={ref}>
       <RN.Animated.View style={slideStyle}>
         {childrenToDisplay}
       </RN.Animated.View>
