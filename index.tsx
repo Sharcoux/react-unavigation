@@ -7,7 +7,7 @@ export type Props = {
   duration?: number;
 }
 
-function flat<T,>(arr: T[]): T[] {
+function flat<T, > (arr: T[]): T[] {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   return arr.reduce((acc, val) => acc.concat(Array.isArray(val) ? flat(val) : val), [])
@@ -51,7 +51,7 @@ const Navigation = React.forwardRef<RN.View, Props>(({ active, children, duratio
   React.useEffect(() => {
     newTarget.current = activeChildIndex// We record the new target being requested
     /** Show a transition from the activeIndex to the active child. **/
-    function animateTo(index: number) {
+    function animateTo (index: number) {
       if (activeIndex.current !== target.current) return // If an animation is already in progress, we wait until it is over
       if (activeIndex.current === index) return // If the target is the current slide, we do nothing
       target.current = index // Register the target
@@ -120,8 +120,8 @@ type SlideProps<T> = T & {
   children?: React.ReactNode;
 }
 
-export const Slide = <T,>(props: SlideProps<T>) => (<props.Component {...props} Component={undefined} />)
+export const Slide = <T, >(props: SlideProps<T>) => (<props.Component {...props} Component={undefined} />)
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-export const asSlide = <T,>(Component: React.ComponentType<T>, defaultName: string) => ({ name = defaultName, ...props }: T & { name: string; children?: React.ReactNode }) => (<Component name={name} {...props} />)
+export const asSlide = <T, >(Component: React.ComponentType<T>, defaultName: string) => ({ name = defaultName, ...props }: T & { name: string; children?: React.ReactNode }) => (<Component name={name} {...props} />)
