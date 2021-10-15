@@ -7,7 +7,8 @@ module.exports = {
     'plugin:react/recommended',
     'standard',
     'plugin:@typescript-eslint/eslint-recommended',
-    'plugin:@typescript-eslint/recommended'
+    'plugin:@typescript-eslint/recommended',
+    'plugin:react-hooks/recommended'
   ],
   globals: {
     Atomics: 'readonly',
@@ -23,6 +24,7 @@ module.exports = {
   },
   plugins: [
     'react',
+    'react-hooks',
     '@typescript-eslint'
   ],
   rules: {

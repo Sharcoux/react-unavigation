@@ -14,11 +14,14 @@ function flat<T, > (arr: T[]): T[] {
 }
 
 const Navigation = React.forwardRef<RN.View, Props>(({ active, children, duration = 500 }: Props, ref) => {
-  const width = React.useRef(1)
-  const childrenArray = children && Array.isArray(children) ? children : []
+  const [width, setWidth] = React.useState(1)
 
   // We keep only the children of type ReactElement as other children will not be accessible anyway
-  const childrenElementsArray = flat(childrenArray as React.ReactNodeArray).filter(child => child && (child as React.ReactElement).props) as Array<React.ReactElement>
+  const childrenElementsArray = React.useMemo(() => {
+    const childrenArray = children && Array.isArray(children) ? children : []
+    return flat(childrenArray as React.ReactNodeArray)
+      .filter(child => child && (child as React.ReactElement).props) as Array<React.ReactElement>
+  }, [children])
 
   // activeIndex is the slide which is expected to be displayed
   const activeChildIndex = childrenElementsArray.findIndex(child => child.props.name === active) || 0
@@ -67,23 +70,27 @@ const Navigation = React.forwardRef<RN.View, Props>(({ active, children, duratio
     }
 
     animateTo(activeChildIndex)
-  }, [activeChildIndex])
-  React.useEffect(() => () => offset.current.stopAnimation(), [offset])// Clean up
+  }, [activeChildIndex, duration, revalidate])
+
+  React.useEffect(() => () => offset.current.stopAnimation(), [])// Clean up
 
   // We display only the current active slide and eventually the target of the current animation.
-  const childrenToDisplay = childrenElementsArray
+  const childrenToDisplay = React.useMemo(() => childrenElementsArray
     .filter((_child, i) => activeIndex.current === i || target.current === i)
     .map(child => (<RN.View style={{ flex: 1, flexBasis: 0 }} key={child.props.name}>{child}</RN.View>))
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  , [activeIndex.current, childrenElementsArray, target.current])
 
-  const sliderStyle: RN.ViewStyle = {
+  const sliderStyle: RN.ViewStyle = React.useMemo(() => ({
     flex: 1,
     alignSelf: 'stretch',
     overflow: target.current === activeIndex.current ? undefined : 'hidden',
     position: 'relative',
     flexDirection: 'row'
-  }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }), [target.current, activeIndex.current])
 
-  const slideStyle: RN.ViewStyle = {
+  const slideStyle: RN.ViewStyle = React.useMemo(() => ({
     position: 'relative',
     flexDirection: 'row',
     flexWrap: 'nowrap',
@@ -94,15 +101,23 @@ const Navigation = React.forwardRef<RN.View, Props>(({ active, children, duratio
     transform: [{
       translateX: offset.current.interpolate({
         inputRange: [0, 100],
-        outputRange: (target.current >= activeIndex.current) ? [0, -width.current] : [-width.current, 0]
+        outputRange: (target.current >= activeIndex.current) ? [0, -width] : [-width, 0]
       }) as unknown as number
     }]
-  }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }), [width, target.current, activeIndex.current, childrenToDisplay.length])
+
+  const unmounted = React.useRef(false)
+  React.useEffect(() => () => { unmounted.current = true }, [])
+  const onLayout = React.useCallback((event: RN.LayoutChangeEvent) => {
+    const newWidth = event.nativeEvent.layout.width
+    !unmounted.current && width !== newWidth && setWidth(newWidth)
+  }, [width])
 
   if (!children) return null
   if (!Array.isArray(children)) return children as React.ReactElement
   return (
-    <RN.View onLayout={event => (width.current = event.nativeEvent.layout.width)} style={sliderStyle} ref={ref}>
+    <RN.View onLayout={onLayout} style={sliderStyle} ref={ref}>
       <RN.Animated.View style={slideStyle}>
         {childrenToDisplay}
       </RN.Animated.View>
