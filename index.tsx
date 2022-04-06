@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import * as RN from 'react-native'
 
 export type Props = {
@@ -84,7 +84,7 @@ const Navigation = React.forwardRef<RN.View, Props>(({ active, children, duratio
   const sliderStyle: RN.ViewStyle = React.useMemo(() => ({
     flex: 1,
     alignSelf: 'stretch',
-    overflow: target.current === activeIndex.current ? undefined : 'hidden',
+    overflow: target.current === activeIndex.current ? undefined : (RN.Platform.OS === 'web' ? 'clip' : 'hidden') as 'hidden',
     position: 'relative',
     flexDirection: 'row'
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -137,6 +137,7 @@ type SlideProps<T> = T & {
 
 export const Slide = <T, >(props: SlideProps<T>) => (<props.Component {...props} Component={undefined} />)
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-export const asSlide = <T, >(Component: React.ComponentType<T>, defaultName: string) => ({ name = defaultName, ...props }: T & { name: string; children?: React.ReactNode }) => (<Component name={name} {...props} />)
+export const asSlide = <T, >(Component: React.ComponentType<T>, defaultName: string) => {
+  const AsSlide = (props: T & { name: string; children?: React.ReactNode }) => (<Component {...props} name={props.name || defaultName} />)
+  return AsSlide
+}
