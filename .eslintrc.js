@@ -1,7 +1,8 @@
 module.exports = {
   env: {
     browser: true,
-    es6: true
+    es6: true,
+    node: true
   },
   extends: [
     'eslint:recommended',
@@ -23,6 +24,11 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: 'module'
   },
+  settings: {
+    react: {
+      version: 'detect'
+    }
+  },
   plugins: [
     'react',
     'react-hooks',
@@ -30,7 +36,8 @@ module.exports = {
   ],
   rules: {
     '@typescript-eslint/explicit-function-return-type': 'off',
-    '@typescript-eslint/explicit-module-boundary-types': 'off'
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
+    'react/react-in-jsx-scope': 'off'
   },
   ignorePatterns: ['index.js', 'index.d.ts']
 }

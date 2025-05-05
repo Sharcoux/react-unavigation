@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Text, View, AppRegistry, Button } from 'react-native'
-import Navigation, { Slide, asSlide } from '.'
+import Navigation, { Slide, asSlide } from '../src'
 
 const Page2 = asSlide(View, '2')
 
 const App = () => {
-  const [active, setActive] = useState(0)
+  const [active, setActive] = React.useState(0)
   return (<View>
     <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
       {(new Array(3)).fill('').map((_, i) => <Button key={i} onPress={() => setActive(i)} title={'Navigate to ' + i} />)}

@@ -7,10 +7,8 @@ export type Props = {
   duration?: number;
 }
 
-function flat<T, > (arr: T[]): T[] {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  return arr.reduce((acc, val) => acc.concat(Array.isArray(val) ? flat(val) : val), [])
+function flat<T> (arr: T[]): T[] {
+  return arr.reduce((acc, val) => acc.concat(Array.isArray(val) ? flat(val) : val), [] as T[])
 }
 
 const Navigation = React.forwardRef<RN.View, Props>(({ active, children, duration = 500 }: Props, ref) => {
@@ -18,9 +16,9 @@ const Navigation = React.forwardRef<RN.View, Props>(({ active, children, duratio
 
   // We keep only the children of type ReactElement as other children will not be accessible anyway
   const childrenElementsArray = React.useMemo(() => {
-    const childrenArray = children && Array.isArray(children) ? children : []
-    return flat(childrenArray as React.ReactNodeArray)
-      .filter(child => child && (child as React.ReactElement).props) as Array<React.ReactElement>
+    const childrenArray = React.Children.toArray(children)
+    return flat(childrenArray)
+      .filter(child => React.isValidElement(child)) as Array<React.ReactElement>
   }, [children])
 
   // activeIndex is the slide which is expected to be displayed
