@@ -1,6 +1,6 @@
 {
   "name": "@react-native-assets/navigation",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "React Universal Navigation",
   "main": "dist/index.js",
   "browser": "dist/index.web.js",
