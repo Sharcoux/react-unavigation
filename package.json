@@ -12,9 +12,19 @@
     "prepare": "npm run clean && npm run build",
     "release": "release-it"
   },
+  "release-it": {
+    "npm": {
+      "publish": false
+    },
+    "git": {
+      "commitMessage": "Release v${version}",
+      "tagName": "v${version}",
+      "push": true
+    }
+  },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/Sharcoux/react-unavigation.git"
+    "url": "git@github.com:Sharcoux/react-unavigation.git"
   },
   "keywords": [
     "react",
