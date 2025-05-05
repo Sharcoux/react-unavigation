@@ -6,7 +6,7 @@
   "browser": "dist/index.web.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "parcel build src/index.tsx --out-file dist/index.js && parcel build src/index.web.tsx --out-file dist/index.web.js",
+    "build": "parcel build src/index.tsx --dist-dir dist/index.js && parcel build src/index.web.tsx --dist-dir dist/index.web.js",
     "dev": "parcel example/index.html",
     "clean": "rimraf dist",
     "prepare": "npm run clean && npm run build",
