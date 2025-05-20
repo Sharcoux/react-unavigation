@@ -16,13 +16,16 @@ const Navigation = React.forwardRef<RN.View, Props>(({ active, children, duratio
 
   // We keep only the children of type ReactElement as other children will not be accessible anyway
   const childrenElementsArray = React.useMemo(() => {
-    const childrenArray = React.Children.toArray(children)
+    const childrenArray = children && Array.isArray(children) ? children : []
     return flat(childrenArray)
-      .filter(child => React.isValidElement(child)) as Array<React.ReactElement>
+      .filter(child => child && (child as React.ReactElement).props) as Array<React.ReactElement<{ name: string}, React.ComponentType<{ name: string}>>>
   }, [children])
 
   // activeIndex is the slide which is expected to be displayed
-  const activeChildIndex = childrenElementsArray.findIndex(child => child.props.name === active) || 0
+  const activeChildIndex = React.useMemo(() => {
+    const index = childrenElementsArray.findIndex(child => child.props.name === active)
+    return index === -1 ? 0 : index
+  }, [childrenElementsArray, active])
 
   // The animated value and it's interpolated equivalence.
   const offset = React.useRef(new RN.Animated.Value(0))
@@ -80,7 +83,9 @@ const Navigation = React.forwardRef<RN.View, Props>(({ active, children, duratio
   , [activeIndex.current, childrenElementsArray, target.current])
 
   const sliderStyle: RN.ViewStyle = React.useMemo(() => ({
-    flex: 1,
+    flexGrow: 1,
+    flexShrink: 1,
+    flexBasis: 'auto',
     alignSelf: 'stretch',
     overflow: target.current === activeIndex.current ? undefined : (RN.Platform.OS === 'web' ? 'clip' : 'hidden') as 'hidden',
     position: 'relative',

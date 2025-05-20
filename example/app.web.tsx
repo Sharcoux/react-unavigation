@@ -13,7 +13,7 @@ const App = () => {
     <View>
       <Navigation active={active + ''} duration={1000}>
         {/* The View below doesn't respect the type and will be ignored. In future version of typescript, it should raise an error. */}
-        <Slide name='0' style={{ backgroundColor: 'red', alignItems: 'flex-start', flex: 1 }} Component={View}>
+        <Slide name='0' style={{ backgroundColor: 'red', alignItems: 'flex-start', flexGrow: 1, flexShrink: 1, flexBasis: 'auto' }} Component={View}>
           <Text>test qsdj qsd lqjsdmlkfqj msldkfj qlskd fmqlkdjf mqkd smlqj sdlfjq</Text>
           <Text>test qsdj qsd lqjsdmlkfqj msldkfj qlskd fmqlkdjf mqkd smlqj sdlfjq</Text>
           <Text>test qsdj qsd lqjsdmlkfqj msldkfj qlskd fmqlkdjf mqkd smlqj sdlfjq</Text>

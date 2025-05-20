@@ -19,10 +19,14 @@ const Navigation = React.forwardRef<View, Props>(({ active, children, duration =
   const childrenElementsArray = React.useMemo(() => {
     const childrenArray = children && Array.isArray(children) ? children : []
     return flat(childrenArray)
-      .filter(child => child && (child as React.ReactElement).props) as Array<React.ReactElement>
+      .filter(child => child && (child as React.ReactElement).props) as Array<React.ReactElement<{ name: string}, React.ComponentType<{ name: string}>>>
   }, [children])
 
-  const activeChildIndex = childrenElementsArray.findIndex(child => child.props.name === active) || 0
+  // activeIndex is the slide which is expected to be displayed
+  const activeChildIndex = React.useMemo(() => {
+    const index = childrenElementsArray.findIndex(child => child.props.name === active)
+    return index === -1 ? 0 : index
+  }, [childrenElementsArray, active])
 
   const [updateNeeded, setUpdateNeeded] = React.useState(false)
   const revalidate = React.useCallback(() => setUpdateNeeded(true), [])

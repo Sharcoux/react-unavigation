@@ -2,11 +2,15 @@
 
 This package provide a component managing the navigation within your components. It is compatible with both `react-native` and `react-native-web`, making it a good tool for universal apps.
 
+![](example/navigation.gif)
+
+Try it [here](https://snack.expo.dev/@sharcoux/react-native-navigation)
+
 ## Why?
 
-The usual approach about navigation for React Native is to copy the hystory system form browsers. The issue is that React concept is not really compatible with the concept of retrieving data from the url. React components should depend only on the props they receive.
+The usual approach about navigation for React Native is to copy the hystory system from browsers. The issue is that React concept is not really compatible with the concept of retrieving data from the url. React components should depend only on the props they receive.
 
-I created this component to provide a way of navigating between your screens on mobile and browser, in a way more compatible with React way of things.
+I created this component to provide a way to navigate between your screens on mobile and browser, compatible with React way of things.
 
 ## Install
 
